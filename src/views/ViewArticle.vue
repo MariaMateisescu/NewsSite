@@ -10,6 +10,7 @@
           })
         }}
       </h4>
+      <h4>Category: {{ this.currentArticle[0].articleCategory }}</h4>
       <img :src="currentArticle[0].articleCoverPhoto" alt="" />
       <div
         class="article-content ql-editor"

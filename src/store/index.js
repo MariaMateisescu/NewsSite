@@ -15,6 +15,7 @@ export default new Vuex.Store({
     articlePhotoName: "",
     articlePhotoFileURL: null,
     articlePhotoPreview: null,
+    articleCategory: null,
     editArticle: null,
     user: null,
     profileAdmin: null,
@@ -46,6 +47,9 @@ export default new Vuex.Store({
     createFileURL(state, payload) {
       state.articlePhotoFileURL = payload;
     },
+    updateArticleCategory(state, payload) {
+      state.articleCategory = payload;
+    },
     openPhotoPreview(state) {
       state.articlePhotoPreview = !state.articlePhotoPreview;
     },
@@ -57,6 +61,7 @@ export default new Vuex.Store({
       state.articleHTML = payload.articleHTML;
       state.articlePhotoFileURL = payload.articleCoverPhoto;
       state.articlePhotoName = payload.articleCoverPhotoName;
+      state.articleCategory = payload.articleCategory;
     },
     filterArticle(state, payload) {
       state.articles = state.articles.filter(
@@ -122,6 +127,7 @@ export default new Vuex.Store({
             articleTitle: doc.data().articleTitle,
             articleDate: doc.data().date,
             articleCoverPhotoName: doc.data().articleCoverPhotoName,
+            articleCategory: doc.data().articleCategory,
           };
           state.articles.push(data);
         }

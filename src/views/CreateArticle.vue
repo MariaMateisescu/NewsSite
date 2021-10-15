@@ -31,6 +31,19 @@
           <span>File Chosen: {{ $store.state.articlePhotoName }}</span>
         </div>
       </div>
+      <div class="radio-buttons-container">
+        <p class="radio-buttons-label">Category:</p>
+        <b-form-group v-slot="{ ariaDescribedby }">
+          <b-form-radio-group
+            id="btn-radios-1"
+            v-model="selected"
+            :options="options"
+            :aria-describedby="ariaDescribedby"
+            name="radios-btn-default"
+            buttons
+          ></b-form-radio-group>
+        </b-form-group>
+      </div>
       <div class="editor">
         <vue-editor
           :editorOptions="editorSettings"
@@ -76,6 +89,15 @@ export default {
           imageResize: {},
         },
       },
+      selected: "other",
+      options: [
+        { text: "Sports", value: "sports" },
+        { text: "Health", value: "health" },
+        { text: "Technology", value: "technology" },
+        { text: "Business", value: "business" },
+        { text: "Politics", value: "politics" },
+        { text: "Other", value: "other" },
+      ],
     };
   },
   methods: {
@@ -139,6 +161,7 @@ export default {
                 articleTitle: this.articleTitle,
                 profileId: this.profileId,
                 date: timestamp,
+                articleCategory: this.selected,
               });
               await this.$store.dispatch("getArticle");
               this.loading = false;
@@ -194,6 +217,16 @@ export default {
 </script>
 
 <style lang="scss">
+.radio-buttons-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.radio-buttons-label {
+  margin-right: 20px;
+  font-size: 16px;
+  color: #303030;
+}
 .create-article {
   position: relative;
   height: 100%;

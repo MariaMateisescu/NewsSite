@@ -31,6 +31,22 @@
           <span>File Chosen: {{ $store.state.articlePhotoName }}</span>
         </div>
       </div>
+      <div class="radio-buttons-container">
+        <p class="radio-buttons-label">Category:</p>
+        <b-form-group
+          v-slot="{ ariaDescribedby }"
+          @input="changeCategory(checked)"
+        >
+          <b-form-radio-group
+            id="btn-radios-1"
+            v-model="selected"
+            :options="options"
+            :aria-describedby="ariaDescribedby"
+            name="radios-btn-default"
+            buttons
+          ></b-form-radio-group>
+        </b-form-group>
+      </div>
       <div class="editor">
         <vue-editor
           :editorOptions="editorSettings"
@@ -78,6 +94,14 @@ export default {
           imageResize: {},
         },
       },
+      options: [
+        { text: "Sports", value: "sports" },
+        { text: "Health", value: "health" },
+        { text: "Technology", value: "technology" },
+        { text: "Business", value: "business" },
+        { text: "Politics", value: "politics" },
+        { text: "Other", value: "other" },
+      ],
     };
   },
   async mounted() {
@@ -88,6 +112,9 @@ export default {
     this.$store.commit("setArticleState", this.currentArticle[0]);
   },
   methods: {
+    changeCategory(checked) {
+      this.$store.commit("updateArticleCategory", checked);
+    },
     fileChange() {
       this.file = this.$refs.articlePhoto.files[0];
       const fileName = this.file.name;
@@ -144,6 +171,7 @@ export default {
                 articleCoverPhoto: downloadURL,
                 articleCoverPhotoName: this.articleCoverPhotoName,
                 articleTitle: this.articleTitle,
+                articleCategory: this.selected,
               });
               await this.$store.dispatch("updateArticle", this.routeID);
               this.loading = false;
@@ -159,6 +187,7 @@ export default {
         await dataBase.update({
           articleHTML: this.articleHTML,
           articleTitle: this.articleTitle,
+          articleCategory: this.selected,
         });
         await this.$store.dispatch("updateArticle", this.routeID);
         this.loading = false;
@@ -178,6 +207,14 @@ export default {
     },
   },
   computed: {
+    selected: {
+      get() {
+        return this.$store.state.articleCategory;
+      },
+      set(payload) {
+        this.$store.commit("updateArticleCategory", payload);
+      },
+    },
     profileId() {
       return this.$store.state.profileId;
     },
