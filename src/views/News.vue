@@ -1,5 +1,6 @@
 <template>
   <div class="article-card-wrap">
+    <TabMenu class="tabmenu" :model="items" :activeIndex.sync="active" />
     <div class="article-cards container">
       <div class="toggle-edit">
         <span>Toggle Editing Article</span>
@@ -15,15 +16,50 @@
 </template>
 
 <script>
+import TabMenu from "primevue/tabmenu";
 import NewsCard from "@/components/NewsCard.vue";
 export default {
   name: "news",
   components: {
     NewsCard,
+    TabMenu,
+  },
+  data() {
+    return {
+      active: 0,
+      items: [
+        {
+          label: "All",
+        },
+        {
+          label: "Sports",
+        },
+        {
+          label: "Health",
+        },
+        { label: "Technology" },
+        {
+          label: "Business",
+        },
+        {
+          label: "Politics",
+        },
+        {
+          label: "Other",
+        },
+      ],
+    };
   },
   computed: {
     articles() {
-      return this.$store.state.articles;
+      if (this.items[this.active].label === "All") {
+        return this.$store.state.articles;
+      }
+      return this.$store.state.articles.filter(
+        (article) =>
+          article.articleCategory ===
+          this.items[this.active].label.toLowerCase()
+      );
     },
     editArticle: {
       get() {
@@ -41,6 +77,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.tabmenu {
+  position: absolute;
+  top: 0px;
+  width: 100%;
+  left: 0px;
+}
 .article-cards {
   position: relative;
 
@@ -48,7 +90,7 @@ export default {
     display: flex;
     align-items: center;
     position: absolute;
-    top: -70px;
+    top: -90px;
     right: 0;
 
     span {

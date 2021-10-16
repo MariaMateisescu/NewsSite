@@ -33,16 +33,12 @@
       </div>
       <div class="radio-buttons-container">
         <p class="radio-buttons-label">Category:</p>
-        <b-form-group v-slot="{ ariaDescribedby }">
-          <b-form-radio-group
-            id="btn-radios-1"
-            v-model="selected"
-            :options="options"
-            :aria-describedby="ariaDescribedby"
-            name="radios-btn-default"
-            buttons
-          ></b-form-radio-group>
-        </b-form-group>
+        <SelectButton
+          v-model="selected"
+          :options="options"
+          optionLabel="name"
+        />
+        {{ selected.code }}
       </div>
       <div class="editor">
         <vue-editor
@@ -64,6 +60,7 @@
 
 <script>
 import ArticleCoverPreview from "@/components/ArticleCoverPreview.vue";
+import SelectButton from "primevue/selectbutton";
 import Loading from "@/components/Loading";
 import firebase from "firebase/app";
 import "firebase/storage";
@@ -77,6 +74,7 @@ export default {
   components: {
     ArticleCoverPreview,
     Loading,
+    SelectButton,
   },
   data() {
     return {
@@ -89,14 +87,14 @@ export default {
           imageResize: {},
         },
       },
-      selected: "other",
+      selected: { name: "Other", code: "other" },
       options: [
-        { text: "Sports", value: "sports" },
-        { text: "Health", value: "health" },
-        { text: "Technology", value: "technology" },
-        { text: "Business", value: "business" },
-        { text: "Politics", value: "politics" },
-        { text: "Other", value: "other" },
+        { name: "Sports", code: "sports" },
+        { name: "Health", code: "health" },
+        { name: "Technology", code: "technology" },
+        { name: "Business", code: "business" },
+        { name: "Politics", code: "politics" },
+        { name: "Other", code: "other" },
       ],
     };
   },
@@ -161,7 +159,7 @@ export default {
                 articleTitle: this.articleTitle,
                 profileId: this.profileId,
                 date: timestamp,
-                articleCategory: this.selected,
+                articleCategory: this.selected.code,
               });
               await this.$store.dispatch("getArticle");
               this.loading = false;
@@ -221,6 +219,7 @@ export default {
   display: flex;
   flex-direction: row;
   align-items: center;
+  margin-bottom: 20px;
 }
 .radio-buttons-label {
   margin-right: 20px;

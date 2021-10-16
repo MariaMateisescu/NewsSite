@@ -6,14 +6,13 @@ import Vue2Editor from "vue2-editor";
 import firebase from "firebase/app";
 import "firebase/auth";
 
-import { BootstrapVue, BootstrapVueIcons } from "bootstrap-vue";
+import PrimeVue from "primevue/config";
+import "primevue/resources/themes/saga-blue/theme.css"; //theme
+import "primevue/resources/primevue.min.css"; //core css
 
-import "bootstrap/dist/css/bootstrap.css";
-import "bootstrap-vue/dist/bootstrap-vue.css";
+Vue.use(PrimeVue);
 
 Vue.use(Vue2Editor);
-Vue.use(BootstrapVue);
-Vue.use(BootstrapVueIcons);
 Vue.config.productionTip = false;
 
 let app;

@@ -33,19 +33,13 @@
       </div>
       <div class="radio-buttons-container">
         <p class="radio-buttons-label">Category:</p>
-        <b-form-group
-          v-slot="{ ariaDescribedby }"
-          @input="changeCategory(checked)"
-        >
-          <b-form-radio-group
-            id="btn-radios-1"
-            v-model="selected"
-            :options="options"
-            :aria-describedby="ariaDescribedby"
-            name="radios-btn-default"
-            buttons
-          ></b-form-radio-group>
-        </b-form-group>
+        <SelectButton
+          @input="changeCategory"
+          v-if="selected"
+          v-model="selected"
+          :options="options"
+          optionLabel="name"
+        />
       </div>
       <div class="editor">
         <vue-editor
@@ -67,6 +61,7 @@
 
 <script>
 import ArticleCoverPreview from "@/components/ArticleCoverPreview.vue";
+import SelectButton from "primevue/selectbutton";
 import Loading from "@/components/Loading";
 import firebase from "firebase/app";
 import "firebase/storage";
@@ -80,6 +75,7 @@ export default {
   components: {
     ArticleCoverPreview,
     Loading,
+    SelectButton,
   },
   data() {
     return {
@@ -95,12 +91,12 @@ export default {
         },
       },
       options: [
-        { text: "Sports", value: "sports" },
-        { text: "Health", value: "health" },
-        { text: "Technology", value: "technology" },
-        { text: "Business", value: "business" },
-        { text: "Politics", value: "politics" },
-        { text: "Other", value: "other" },
+        { name: "Sports", code: "sports" },
+        { name: "Health", code: "health" },
+        { name: "Technology", code: "technology" },
+        { name: "Business", code: "business" },
+        { name: "Politics", code: "politics" },
+        { name: "Other", code: "other" },
       ],
     };
   },
@@ -112,8 +108,8 @@ export default {
     this.$store.commit("setArticleState", this.currentArticle[0]);
   },
   methods: {
-    changeCategory(checked) {
-      this.$store.commit("updateArticleCategory", checked);
+    changeCategory(e) {
+      this.$store.commit("updateArticleCategory", e.code);
     },
     fileChange() {
       this.file = this.$refs.articlePhoto.files[0];
@@ -171,7 +167,7 @@ export default {
                 articleCoverPhoto: downloadURL,
                 articleCoverPhotoName: this.articleCoverPhotoName,
                 articleTitle: this.articleTitle,
-                articleCategory: this.selected,
+                articleCategory: this.selected.code,
               });
               await this.$store.dispatch("updateArticle", this.routeID);
               this.loading = false;
@@ -187,7 +183,7 @@ export default {
         await dataBase.update({
           articleHTML: this.articleHTML,
           articleTitle: this.articleTitle,
-          articleCategory: this.selected,
+          articleCategory: this.selected.code,
         });
         await this.$store.dispatch("updateArticle", this.routeID);
         this.loading = false;
@@ -207,13 +203,13 @@ export default {
     },
   },
   computed: {
-    selected: {
-      get() {
-        return this.$store.state.articleCategory;
-      },
-      set(payload) {
-        this.$store.commit("updateArticleCategory", payload);
-      },
+    selected() {
+      if (this.$store.state.articleCategory) {
+        const nume =
+          this.$store.state.articleCategory[0].toUpperCase() +
+          this.$store.state.articleCategory.substring(1);
+        return { name: nume, code: this.$store.state.articleCategory };
+      } else return { name: "Other", code: "other" };
     },
     profileId() {
       return this.$store.state.profileId;
