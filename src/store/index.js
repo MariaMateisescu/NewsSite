@@ -50,6 +50,13 @@ export default new Vuex.Store({
     updateArticleCategory(state, payload) {
       state.articleCategory = payload;
     },
+    resetArticleFields(state) {
+      state.articleCategory = "";
+      state.articleTitle = "";
+      state.articleHTML = "";
+      state.articlePhotoFileURL = "";
+      state.articlePhotoName = "";
+    },
     openPhotoPreview(state) {
       state.articlePhotoPreview = !state.articlePhotoPreview;
     },

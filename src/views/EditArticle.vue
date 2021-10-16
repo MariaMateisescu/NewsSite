@@ -107,6 +107,9 @@ export default {
     });
     this.$store.commit("setArticleState", this.currentArticle[0]);
   },
+  destroyed() {
+    this.reset();
+  },
   methods: {
     changeCategory(e) {
       this.$store.commit("updateArticleCategory", e.code);
@@ -200,6 +203,9 @@ export default {
         this.error = false;
       }, 5000);
       return;
+    },
+    reset() {
+      this.$store.commit("resetArticleFields");
     },
   },
   computed: {

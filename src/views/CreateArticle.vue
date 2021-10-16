@@ -162,7 +162,6 @@ export default {
               });
               await this.$store.dispatch("getArticle");
               this.loading = false;
-
               this.$router.push({
                 name: "ViewArticle",
                 params: { articleid: dataBase.id },
@@ -186,6 +185,12 @@ export default {
       }, 5000);
       return;
     },
+    reset() {
+      this.$store.commit("resetArticleFields");
+    },
+  },
+  destroyed() {
+    this.reset();
   },
   computed: {
     profileId() {
