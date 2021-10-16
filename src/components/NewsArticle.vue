@@ -19,7 +19,7 @@
             name: 'ViewArticle',
             params: { articleid: articol.articleID },
           }"
-          >view the article <Arrow class="arrow"></Arrow>
+          >read the article <Arrow class="arrow"></Arrow>
         </router-link>
       </div>
     </div>

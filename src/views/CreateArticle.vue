@@ -38,7 +38,6 @@
           :options="options"
           optionLabel="name"
         />
-        {{ selected.code }}
       </div>
       <div class="editor">
         <vue-editor
@@ -163,6 +162,7 @@ export default {
               });
               await this.$store.dispatch("getArticle");
               this.loading = false;
+
               this.$router.push({
                 name: "ViewArticle",
                 params: { articleid: dataBase.id },
