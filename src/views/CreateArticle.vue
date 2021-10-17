@@ -301,6 +301,11 @@ export default {
     display: flex;
     margin-bottom: 32px;
 
+    @media (max-width: 700px) {
+      flex-direction: column;
+      gap: 10px;
+    }
+
     input:nth-child(1) {
       min-width: 300px;
     }

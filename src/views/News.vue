@@ -93,8 +93,12 @@ export default {
     display: flex;
     align-items: center;
     position: absolute;
-    top: -90px;
+    top: -30px;
     right: 0;
+
+    @media (min-width: 700px) {
+      top: -90px;
+    }
 
     span {
       margin-right: 16px;

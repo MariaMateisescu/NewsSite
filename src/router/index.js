@@ -8,7 +8,6 @@ import ForgotPassword from "@/views/ForgotPassword.vue";
 import Profile from "@/views/Profile.vue";
 import Admin from "@/views/Admin.vue";
 import CreateArticle from "@/views/CreateArticle.vue";
-import ArticlePreview from "@/views/ArticlePreview.vue";
 import ViewArticle from "@/views/ViewArticle.vue";
 import EditArticle from "@/views/EditArticle.vue";
 import firebase from "firebase/app";
@@ -87,16 +86,6 @@ const routes = [
     component: CreateArticle,
     meta: {
       title: "Create Article",
-      requiresAuth: true,
-      requiresAdmin: true,
-    },
-  },
-  {
-    path: "/article-preview",
-    name: "ArticlePreview",
-    component: ArticlePreview,
-    meta: {
-      title: "Preview Article",
       requiresAuth: true,
       requiresAdmin: true,
     },
