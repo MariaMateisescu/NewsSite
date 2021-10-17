@@ -10,7 +10,7 @@
           })
         }}
       </h4>
-      <h4>Category: {{ this.currentArticle[0].articleCategory }}</h4>
+      <h4>Category: {{ category }}</h4>
       <img :src="currentArticle[0].articleCoverPhoto" alt="" />
       <div
         class="article-content ql-editor"
@@ -32,6 +32,14 @@ export default {
     this.currentArticle = await this.$store.state.articles.filter((article) => {
       return article.articleID === this.$route.params.articleid;
     });
+  },
+  computed: {
+    category() {
+      return (
+        this.currentArticle[0].articleCategory[0].toUpperCase() +
+        this.currentArticle[0].articleCategory.substring(1)
+      );
+    },
   },
 };
 </script>

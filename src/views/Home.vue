@@ -21,7 +21,7 @@
     <div v-if="!user" class="updates">
       <div class="container">
         <h2>Never miss an article. Register for your free account today!</h2>
-        <router-link class="router-button" to="#"
+        <router-link class="router-button" :to="{ name: 'Register' }"
           >Register for NewsSite
           <Arrow class="arrow arrow-light"></Arrow>
         </router-link>
@@ -45,7 +45,7 @@ export default {
     return {
       welcomeScreen: {
         title: "Welcome!",
-        content: "Daily news",
+        content: "It's always good news when you're closer to the truth.",
         welcomeScreen: true,
         photo: "welcome",
       },

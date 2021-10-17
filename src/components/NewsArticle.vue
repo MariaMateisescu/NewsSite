@@ -101,8 +101,7 @@ export default {
       .content-preview {
         font-size: 13px;
         max-height: 24px;
-        width: 250px;
-        white-space: nowrap;
+        width: 400px;
         overflow: hidden;
         text-overflow: ellipsis;
       }

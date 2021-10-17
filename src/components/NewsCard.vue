@@ -9,7 +9,7 @@
       </div>
     </div>
     <img :src="articol.articleCoverPhoto" alt="" />
-    <div class="info">
+    <div @click="goToArticleView" class="info">
       <h4>{{ articol.articleTitle }}</h4>
       <h6>
         Posted on:
@@ -49,6 +49,12 @@ export default {
     },
   },
   methods: {
+    goToArticleView() {
+      this.$router.push({
+        name: "ViewArticle",
+        params: { articleid: this.articol.articleID },
+      });
+    },
     deleteArticle() {
       this.$store.dispatch("deleteArticle", this.articol.articleID);
     },

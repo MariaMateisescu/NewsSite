@@ -2,7 +2,7 @@
   <div class="article-card-wrap">
     <TabMenu class="tabmenu" :model="items" :activeIndex.sync="active" />
     <div class="article-cards container">
-      <div class="toggle-edit">
+      <div v-if="admin" class="toggle-edit">
         <span>Toggle Editing Article</span>
         <input type="checkbox" v-model="editArticle" />
       </div>
@@ -51,6 +51,9 @@ export default {
     };
   },
   computed: {
+    admin() {
+      return this.$store.state.profileAdmin;
+    },
     articles() {
       if (this.items[this.active].label === "All") {
         return this.$store.state.articles;
