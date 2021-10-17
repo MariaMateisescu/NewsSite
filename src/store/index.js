@@ -15,6 +15,7 @@ export default new Vuex.Store({
     articlePhotoName: "",
     articlePhotoFileURL: null,
     articlePhotoPreview: null,
+    articlePreview: null,
     articleCategory: null,
     editArticle: null,
     user: null,
@@ -59,6 +60,9 @@ export default new Vuex.Store({
     },
     openPhotoPreview(state) {
       state.articlePhotoPreview = !state.articlePhotoPreview;
+    },
+    openArticlePreview(state) {
+      state.articlePreview = !state.articlePreview;
     },
     toggleEditArticle(state, payload) {
       state.editArticle = payload;

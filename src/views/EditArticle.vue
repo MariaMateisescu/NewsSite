@@ -1,6 +1,7 @@
 <template>
   <div class="create-article">
     <ArticleCoverPreview v-show="this.$store.state.articlePhotoPreview" />
+    <ArticlePreview v-show="this.$store.state.articlePreview" />
     <Loading v-show="loading" />
     <div class="container">
       <div :class="{ invisible: !error }" class="err-message">
@@ -50,9 +51,9 @@
         ></vue-editor>
       </div>
       <div class="article-actions">
-        <router-link class="router-button" :to="{ name: 'ArticlePreview' }"
-          >Preview Changes</router-link
-        >
+        <button class="button" @click="openArticlePreview">
+          Article Preview
+        </button>
         <button class="button" @click="updateArticle">Save Changes</button>
       </div>
     </div>
@@ -60,6 +61,7 @@
 </template>
 
 <script>
+import ArticlePreview from "@/components/ArticlePreview.vue";
 import ArticleCoverPreview from "@/components/ArticleCoverPreview.vue";
 import SelectButton from "primevue/selectbutton";
 import Loading from "@/components/Loading";
@@ -76,6 +78,7 @@ export default {
     ArticleCoverPreview,
     Loading,
     SelectButton,
+    ArticlePreview,
   },
   data() {
     return {
@@ -123,6 +126,9 @@ export default {
 
     openPreview() {
       this.$store.commit("openPhotoPreview");
+    },
+    openArticlePreview() {
+      this.$store.commit("openArticlePreview");
     },
 
     imageHandler(file, Editor, cursorLocation, resetUploader) {

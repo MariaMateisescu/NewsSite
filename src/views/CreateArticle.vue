@@ -1,6 +1,7 @@
 <template>
   <div class="create-article">
     <ArticleCoverPreview v-show="this.$store.state.articlePhotoPreview" />
+    <ArticlePreview v-show="this.$store.state.articlePreview" />
     <Loading v-show="loading" />
     <div class="container">
       <div :class="{ invisible: !error }" class="err-message">
@@ -48,9 +49,9 @@
         ></vue-editor>
       </div>
       <div class="article-actions">
-        <router-link class="router-button" :to="{ name: 'ArticlePreview' }"
-          >Article Preview</router-link
-        >
+        <button class="button" @click="openArticlePreview">
+          Article Preview
+        </button>
         <button class="button" @click="uploadArticle">Publish Article</button>
       </div>
     </div>
@@ -59,6 +60,7 @@
 
 <script>
 import ArticleCoverPreview from "@/components/ArticleCoverPreview.vue";
+import ArticlePreview from "@/components/ArticlePreview.vue";
 import SelectButton from "primevue/selectbutton";
 import Loading from "@/components/Loading";
 import firebase from "firebase/app";
@@ -74,6 +76,7 @@ export default {
     ArticleCoverPreview,
     Loading,
     SelectButton,
+    ArticlePreview,
   },
   data() {
     return {
@@ -107,6 +110,9 @@ export default {
 
     openPreview() {
       this.$store.commit("openPhotoPreview");
+    },
+    openArticlePreview() {
+      this.$store.commit("openArticlePreview");
     },
 
     imageHandler(file, Editor, cursorLocation, resetUploader) {
