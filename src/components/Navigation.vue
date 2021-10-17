@@ -190,6 +190,7 @@ header {
       }
 
       .profile {
+        margin-right: 40px;
         position: relative;
         cursor: pointer;
         display: flex;
