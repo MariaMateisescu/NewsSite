@@ -1,7 +1,10 @@
 <template>
   <div class="article-view" v-if="currentArticle">
     <div class="container quillWrapper">
-      <h2>{{ this.currentArticle[0].articleTitle }}</h2>
+      <div class="back">
+        <backIcon class="back-icon" @click="goBack" />
+        <h2>{{ this.currentArticle[0].articleTitle }}</h2>
+      </div>
       <h4>
         Posted on:
         {{
@@ -21,8 +24,12 @@
 </template>
 
 <script>
+import backIcon from "@/assets/Icons/arrow-right-light.svg";
 export default {
   name: "ViewArticle",
+  components: {
+    backIcon,
+  },
   data() {
     return {
       currentArticle: null,
@@ -39,6 +46,11 @@ export default {
         this.currentArticle[0].articleCategory[0].toUpperCase() +
         this.currentArticle[0].articleCategory.substring(1)
       );
+    },
+  },
+  methods: {
+    goBack() {
+      this.$router.go(-1);
     },
   },
 };
@@ -74,5 +86,21 @@ export default {
     width: 100%;
     margin-bottom: 32px;
   }
+}
+
+.back-icon {
+  width: 32px;
+  height: 32px;
+  position: absolute;
+  left: -70px;
+  transform: scaleX(-1);
+  cursor: pointer;
+  @media (max-width: 1100px) {
+    left: 0px;
+    top: -40px;
+  }
+}
+.back {
+  position: relative;
 }
 </style>

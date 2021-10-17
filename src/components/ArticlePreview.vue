@@ -54,9 +54,9 @@ export default {
     position: relative;
     border-radius: 12px;
     background-color: #fff;
-    height: 750px;
+    height: 700px;
     width: 850px;
-    padding: 50px;
+    padding: 25px;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
       0 2px 4px -1px rgba(0, 0, 0, 0.06);
     .icon2 {
@@ -82,7 +82,7 @@ export default {
 }
 .article-content {
   width: 700px;
-  height: 300px;
+  height: 250px;
   overflow: scroll;
 }
 .wrapper {

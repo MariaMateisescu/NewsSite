@@ -112,7 +112,17 @@ export default {
       this.$store.commit("openPhotoPreview");
     },
     openArticlePreview() {
-      this.$store.commit("openArticlePreview");
+      if (this.articleHTML && this.articleTitle && this.articleCoverPhotoName) {
+        this.$store.commit("openArticlePreview");
+      } else {
+        this.error = true;
+        this.errorMsg =
+          "Please fill in all fields in order to preview the article!";
+        window.scrollTo(0, 0);
+        setTimeout(() => {
+          this.error = false;
+        }, 5000);
+      }
     },
 
     imageHandler(file, Editor, cursorLocation, resetUploader) {

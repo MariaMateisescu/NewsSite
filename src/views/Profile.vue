@@ -55,6 +55,7 @@ export default {
 
     updateProfile() {
       this.$store.dispatch("updateUserSettings");
+      window.scrollTo(0, 0);
       this.modalActive = !this.modalActive;
     },
   },
