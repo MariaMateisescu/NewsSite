@@ -1,6 +1,11 @@
 <template>
   <div class="article-card-wrap">
     <TabMenu class="tabmenu" :model="items" :activeIndex.sync="active" />
+    <autocomplete
+      :placeholder="placeholder"
+      class="search-bar"
+      :search="search"
+    ></autocomplete>
     <div class="article-cards container">
       <div v-if="admin" class="toggle-edit">
         <span>Toggle Editing Article</span>
@@ -11,6 +16,11 @@
         v-for="(articol, index) in articles"
         :key="index"
       ></news-card>
+      <div v-if="articles.length === 0">
+        <p>
+          There are no articles matching your search! :(
+        </p>
+      </div>
     </div>
   </div>
 </template>
@@ -27,6 +37,7 @@ export default {
   data() {
     return {
       active: 0,
+      input: "",
       items: [
         {
           label: "All",
@@ -37,7 +48,9 @@ export default {
         {
           label: "Health",
         },
-        { label: "Technology" },
+        {
+          label: "Technology",
+        },
         {
           label: "Business",
         },
@@ -51,18 +64,33 @@ export default {
     };
   },
   computed: {
+    placeholder() {
+      return `Search in ${this.items[this.active].label}`;
+    },
     admin() {
       return this.$store.state.profileAdmin;
     },
     articles() {
-      if (this.items[this.active].label === "All") {
+      if (this.items[this.active].label === "All" && this.input === "") {
         return this.$store.state.articles;
+      } else if (this.items[this.active].label === "All") {
+        return this.$store.state.articles.filter((article) => {
+          return article.articleTitle
+            .toLowerCase()
+            .includes(this.input.toLowerCase());
+        });
       }
-      return this.$store.state.articles.filter(
-        (article) =>
-          article.articleCategory ===
-          this.items[this.active].label.toLowerCase()
-      );
+      return this.$store.state.articles
+        .filter(
+          (article) =>
+            article.articleCategory ===
+            this.items[this.active].label.toLowerCase()
+        )
+        .filter((article) => {
+          return article.articleTitle
+            .toLowerCase()
+            .includes(this.input.toLowerCase());
+        });
     },
     editArticle: {
       get() {
@@ -76,10 +104,21 @@ export default {
   beforeDestroy() {
     this.$store.commit("toggleEditArticle", false);
   },
+  methods: {
+    search(input) {
+      this.input = input;
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
+.search-bar {
+  position: absolute;
+  top: 55px;
+  width: 300px;
+  left: 40px;
+}
 .tabmenu {
   position: absolute;
   top: 0px;
@@ -88,16 +127,17 @@ export default {
 }
 .article-cards {
   position: relative;
+  margin-top: 20px;
 
   .toggle-edit {
     display: flex;
     align-items: center;
     position: absolute;
-    top: -30px;
+    top: -40px;
     right: 0;
 
     @media (min-width: 700px) {
-      top: -90px;
+      top: -110px;
     }
 
     span {
