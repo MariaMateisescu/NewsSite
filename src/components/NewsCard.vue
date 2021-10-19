@@ -20,7 +20,7 @@
         }}
       </h6>
       <ul class="tags">
-        <li v-for="tag in tags" :key="tag">
+        <li v-for="tag in tags" :key="tag" @click="goToTag(tag, $event)">
           <a class="tag">{{ tag }}</a>
         </li>
       </ul>
@@ -94,6 +94,15 @@ export default {
         name: "EditArticle",
         params: { articleid: this.articol.articleID },
       });
+    },
+    goToTag(tag, event) {
+      event.cancelBubble = true;
+      if (event.stopPropagation) event.stopPropagation();
+      this.$router.push({
+        name: "Tags",
+        params: { tag: tag },
+      });
+      console.log(event, tag);
     },
     async bookmarkArticle(event) {
       event.cancelBubble = true;
