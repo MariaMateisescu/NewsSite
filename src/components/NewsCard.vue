@@ -27,11 +27,19 @@
         }"
         >read the article <Arrow class="arrow"></Arrow
       ></router-link>
+      <bookmarkIcon
+        @click="bookmarkArticle"
+        :class="{
+          clicked: isClicked,
+        }"
+        class="bookmark-icon"
+      ></bookmarkIcon>
     </div>
   </div>
 </template>
 
 <script>
+import bookmarkIcon from "../assets/Icons/bookmark-shapes-svgrepo-com.svg";
 import Arrow from "@/assets/Icons/arrow-right-light.svg";
 import Edit from "@/assets/Icons/edit-regular.svg";
 import Delete from "@/assets/Icons/trash-regular.svg";
@@ -41,11 +49,24 @@ export default {
   components: {
     Arrow,
     Edit,
+    bookmarkIcon,
     Delete,
   },
   computed: {
     showEditArticle() {
       return this.$store.state.editArticle;
+    },
+    isClicked() {
+      if (
+        this.$store &&
+        this.$store.state &&
+        this.$store.state.bookmarkArticles &&
+        this.$store.state.bookmarkArticles.some(
+          (article) => article.articleID === this.articol.articleID
+        )
+      ) {
+        return true;
+      } else return false;
     },
   },
   methods: {
@@ -64,11 +85,28 @@ export default {
         params: { articleid: this.articol.articleID },
       });
     },
+    async bookmarkArticle(event) {
+      event.cancelBubble = true;
+      if (event.stopPropagation) event.stopPropagation();
+      if (this.isClicked === false) {
+        this.$store.dispatch("bookmarkArticle", this.articol);
+      } else {
+        this.$store.dispatch("unbookmarkArticle", this.articol);
+      }
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+.bookmark-icon {
+  margin-top: 10px;
+  width: 20px;
+  height: auto;
+}
+.clicked {
+  fill: red;
+}
 .article-card {
   position: relative;
   cursor: pointer;

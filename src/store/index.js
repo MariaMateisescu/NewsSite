@@ -9,6 +9,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     articles: [],
+    bookmarkArticles: [],
     articleLoaded: null,
     articleHTML: "Write your article title here...",
     articleTitle: "",
@@ -84,7 +85,6 @@ export default new Vuex.Store({
     },
     setProfileAdmin(state, payload) {
       state.profileAdmin = payload;
-      console.log(state.profileAdmin);
     },
     setProfileInfo(state, doc) {
       state.profileId = doc.id;
@@ -92,6 +92,10 @@ export default new Vuex.Store({
       state.profileFirstName = doc.data().firstName;
       state.profileLastName = doc.data().lastName;
       state.profileUsername = doc.data().username;
+      state.bookmarkArticles = doc.data().bookmarkArticles;
+    },
+    setBookmarkArticles(state, payload) {
+      state.bookmarkArticles = payload.data().bookmarkArticles;
     },
     setProfileInitials(state) {
       state.profileInitials =
@@ -162,6 +166,22 @@ export default new Vuex.Store({
         username: state.profileUsername,
       });
       commit("setProfileInitials");
+    },
+    async bookmarkArticle({ state, commit }, payload) {
+      const dataBase = await db.collection("users").doc(state.profileId);
+      await dataBase.update({
+        bookmarkArticles: firebase.firestore.FieldValue.arrayUnion(payload),
+      });
+      const dbResults = await dataBase.get();
+      commit("setBookmarkArticles", dbResults);
+    },
+    async unbookmarkArticle({ state, commit }, payload) {
+      const dataBase = await db.collection("users").doc(state.profileId);
+      await dataBase.update({
+        bookmarkArticles: firebase.firestore.FieldValue.arrayRemove(payload),
+      });
+      const dbResults = await dataBase.get();
+      commit("setBookmarkArticles", dbResults);
     },
   },
   modules: {},

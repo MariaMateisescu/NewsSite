@@ -48,6 +48,12 @@
                   <p>Admin</p>
                 </router-link>
               </div>
+              <div class="option">
+                <router-link class="option" :to="{ name: 'Bookmarked' }">
+                  <bookmarkIcon class="bookmark-icon"></bookmarkIcon>
+                  <p>Bookmarked</p>
+                </router-link>
+              </div>
               <div @click="signOut" class="option">
                 <signOutIcon class="icon"></signOutIcon>
                 <p>Sign Out</p>
@@ -74,6 +80,7 @@
 </template>
 
 <script>
+import bookmarkIcon from "../assets/Icons/bookmark-shapes-svgrepo-com.svg";
 import menuIcon from "../assets/Icons/bars-regular.svg";
 import userIcon from "../assets/Icons/user-alt-light.svg";
 import adminIcon from "../assets/Icons/user-crown-light.svg";
@@ -88,6 +95,7 @@ export default {
     userIcon,
     adminIcon,
     signOutIcon,
+    bookmarkIcon,
   },
   data() {
     return {
@@ -131,14 +139,21 @@ export default {
 
     signOut() {
       firebase.auth().signOut();
-      // window.location.reload();
-      this.$router.push({ name: "Home" });
+      window.location.reload();
+      // this.$router.push({ name: "Home" });
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+.bookmark-icon {
+  width: 18px;
+  height: auto;
+  path {
+    fill: white;
+  }
+}
 header {
   background-color: white;
   padding: 0 25px;

@@ -9,6 +9,7 @@ import Profile from "@/views/Profile.vue";
 import Admin from "@/views/Admin.vue";
 import CreateArticle from "@/views/CreateArticle.vue";
 import ViewArticle from "@/views/ViewArticle.vue";
+import Bookmarked from "@/views/Bookmarked.vue";
 import EditArticle from "@/views/EditArticle.vue";
 import firebase from "firebase/app";
 import "firebase/auth";
@@ -107,6 +108,16 @@ const routes = [
       title: "Edit Article",
       requiresAuth: true,
       requiresAdmin: true,
+    },
+  },
+  {
+    path: "/bookmarked",
+    name: "Bookmarked",
+    component: Bookmarked,
+    meta: {
+      title: "Bookmarked",
+      requiresAuth: true,
+      requiresAdmin: false,
     },
   },
 ];

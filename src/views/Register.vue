@@ -61,6 +61,7 @@ export default {
       password: "",
       error: null,
       errorMsg: "",
+      bookmarkedArticles: [],
     };
   },
   methods: {
@@ -86,6 +87,7 @@ export default {
           lastName: this.lastName,
           username: this.username,
           email: this.email,
+          bookmarkedArticles: this.bookmarkedArticles,
         });
         this.$router.push({ name: "Home" });
         return;
