@@ -42,6 +42,14 @@
           optionLabel="name"
         />
       </div>
+      <div class="radio-buttons-container" v-if="tags">
+        <p class="radio-buttons-label">Tags:</p>
+        <vue-tags-input
+          v-model="tag"
+          :tags="tags"
+          @tags-changed="(newTags) => (tags = newTags)"
+        />
+      </div>
       <div class="editor">
         <vue-editor
           :editorOptions="editorSettings"
@@ -69,6 +77,7 @@ import firebase from "firebase/app";
 import "firebase/storage";
 import db from "../firebase/firebaseInit";
 import Quill from "quill";
+import VueTagsInput from "@johmun/vue-tags-input";
 window.Quill = Quill;
 const ImageResize = require("quill-image-resize-module").default;
 Quill.register("modules/imageResize", ImageResize);
@@ -79,6 +88,7 @@ export default {
     Loading,
     SelectButton,
     ArticlePreview,
+    VueTagsInput,
   },
   data() {
     return {
@@ -87,6 +97,7 @@ export default {
       errorMsg: null,
       loading: null,
       routeID: null,
+      tag: "",
       currentArticle: null,
       editorSettings: {
         modules: {
@@ -177,6 +188,7 @@ export default {
                 articleCoverPhotoName: this.articleCoverPhotoName,
                 articleTitle: this.articleTitle,
                 articleCategory: this.selected.code,
+                articleTags: this.tags,
               });
               await this.$store.dispatch("updateArticle", this.routeID);
               this.loading = false;
@@ -193,6 +205,7 @@ export default {
           articleHTML: this.articleHTML,
           articleTitle: this.articleTitle,
           articleCategory: this.selected.code,
+          articleTags: this.tags,
         });
         await this.$store.dispatch("updateArticle", this.routeID);
         this.loading = false;
@@ -215,6 +228,14 @@ export default {
     },
   },
   computed: {
+    tags: {
+      get() {
+        return this.$store.state.articleTags;
+      },
+      set(payload) {
+        this.$store.commit("updateArticleTags", payload);
+      },
+    },
     selected() {
       if (this.$store.state.articleCategory) {
         const nume =

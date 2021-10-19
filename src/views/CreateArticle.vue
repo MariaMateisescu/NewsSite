@@ -40,6 +40,14 @@
           optionLabel="name"
         />
       </div>
+      <div class="radio-buttons-container">
+        <p class="radio-buttons-label">Tags:</p>
+        <vue-tags-input
+          v-model="tag"
+          :tags="tags"
+          @tags-changed="(newTags) => (tags = newTags)"
+        />
+      </div>
       <div class="editor">
         <vue-editor
           :editorOptions="editorSettings"
@@ -67,6 +75,7 @@ import firebase from "firebase/app";
 import "firebase/storage";
 import db from "../firebase/firebaseInit";
 import Quill from "quill";
+import VueTagsInput from "@johmun/vue-tags-input";
 window.Quill = Quill;
 const ImageResize = require("quill-image-resize-module").default;
 Quill.register("modules/imageResize", ImageResize);
@@ -77,6 +86,7 @@ export default {
     Loading,
     SelectButton,
     ArticlePreview,
+    VueTagsInput,
   },
   data() {
     return {
@@ -84,6 +94,8 @@ export default {
       error: null,
       errorMsg: null,
       loading: null,
+      tag: "",
+      tags: [],
       editorSettings: {
         modules: {
           imageResize: {},
@@ -175,6 +187,7 @@ export default {
                 profileId: this.profileId,
                 date: timestamp,
                 articleCategory: this.selected.code,
+                articleTags: this.tags,
               });
               await this.$store.dispatch("getArticle");
               this.loading = false;
