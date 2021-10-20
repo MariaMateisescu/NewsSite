@@ -175,6 +175,7 @@ export default new Vuex.Store({
     },
     async bookmarkArticle({ state, commit }, payload) {
       const dataBase = await db.collection("users").doc(state.profileId);
+      console.log(payload);
       await dataBase.update({
         bookmarkArticles: firebase.firestore.FieldValue.arrayUnion(payload),
       });

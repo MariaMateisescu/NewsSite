@@ -102,7 +102,6 @@ export default {
         name: "Tags",
         params: { tag: tag },
       });
-      console.log(event, tag);
     },
     async bookmarkArticle(event) {
       event.cancelBubble = true;
@@ -120,8 +119,11 @@ export default {
 <style lang="scss" scoped>
 .bookmark-icon {
   margin-top: 10px;
-  width: 20px;
+  width: 25px;
   height: auto;
+  position: absolute;
+  right: 16px;
+  bottom: 32px;
 }
 .clicked {
   fill: crimson;

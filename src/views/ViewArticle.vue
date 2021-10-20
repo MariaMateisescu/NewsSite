@@ -13,6 +13,11 @@
           })
         }}
       </h4>
+      <ul class="tags">
+        <li v-for="tag in tags" :key="tag" @click="goToTag(tag, $event)">
+          <a class="tag">{{ tag }}</a>
+        </li>
+      </ul>
       <h4>Category: {{ category }}</h4>
       <img :src="currentArticle[0].articleCoverPhoto" alt="" />
       <div
@@ -47,10 +52,23 @@ export default {
         this.currentArticle[0].articleCategory.substring(1)
       );
     },
+    tags() {
+      if (this.currentArticle[0].articleTags)
+        return this.currentArticle[0].articleTags.map((tag) => tag.text);
+      return "";
+    },
   },
   methods: {
     goBack() {
       this.$router.go(-1);
+    },
+    goToTag(tag, event) {
+      event.cancelBubble = true;
+      if (event.stopPropagation) event.stopPropagation();
+      this.$router.push({
+        name: "Tags",
+        params: { tag: tag },
+      });
     },
   },
 };
@@ -102,5 +120,62 @@ export default {
 }
 .back {
   position: relative;
+}
+
+.tags {
+  list-style: none;
+  margin: 0;
+  overflow: hidden;
+  padding: 0;
+}
+
+.tags li {
+  float: left;
+}
+
+.tag {
+  background: #eee;
+  border-radius: 3px 0 0 3px;
+  color: #999;
+  display: inline-block;
+  height: 26px;
+  line-height: 26px;
+  padding: 0 20px 0 23px;
+  position: relative;
+  margin: 0 10px 10px 0;
+  text-decoration: none;
+  -webkit-transition: color 0.2s;
+}
+
+.tag::before {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: inset 0 1px rgba(0, 0, 0, 0.25);
+  content: "";
+  height: 6px;
+  left: 10px;
+  position: absolute;
+  width: 6px;
+  top: 10px;
+}
+
+.tag::after {
+  background: #fff;
+  border-bottom: 13px solid transparent;
+  border-left: 10px solid #eee;
+  border-top: 13px solid transparent;
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.tag:hover {
+  background-color: crimson;
+  color: white;
+}
+
+.tag:hover::after {
+  border-left-color: crimson;
 }
 </style>

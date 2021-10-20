@@ -1,12 +1,12 @@
 <template>
   <div class="article-card-wrap">
-    <!-- <TabMenu class="tabmenu" :model="items" :activeIndex.sync="active" /> -->
     <p class="tags-title">Tag: {{ tag }}</p>
     <autocomplete
       :placeholder="placeholder"
       class="search-bar"
       :search="search"
     ></autocomplete>
+    <button @click="searchTag" class="button find-button">Find</button>
     <div class="article-cards container">
       <div v-if="admin" class="toggle-edit">
         <span>Toggle Editing Article</span>
@@ -27,41 +27,15 @@
 </template>
 
 <script>
-// import TabMenu from "primevue/tabmenu";
 import NewsCard from "@/components/NewsCard.vue";
 export default {
   name: "news",
   components: {
     NewsCard,
-    // TabMenu,
   },
   data() {
     return {
-      //   active: 0,
       input: "",
-      //   items: [
-      //     {
-      //       label: "All",
-      //     },
-      //     {
-      //       label: "Sports",
-      //     },
-      //     {
-      //       label: "Health",
-      //     },
-      //     {
-      //       label: "Technology",
-      //     },
-      //     {
-      //       label: "Business",
-      //     },
-      //     {
-      //       label: "Politics",
-      //     },
-      //     {
-      //       label: "Other",
-      //     },
-      //   ],
     };
   },
   computed: {
@@ -75,29 +49,20 @@ export default {
       return this.$store.state.profileAdmin;
     },
     articles() {
-      //buna
       const articlesWithTags = this.$store.state.articles.filter(
         (article) => article.articleTags
       );
       const filteredArray = articlesWithTags
         .filter((element) =>
-          element.articleTags.some((tag) => tag.text == this.tag)
+          element.articleTags.some((tag) => tag.text === this.tag)
         )
         .map((element) => {
           return Object.assign({}, element, {
             subElements: element.articleTags.filter(
-              (subElement) => subElement.text == this.tag
+              (subElement) => subElement.text === this.tag
             ),
           });
         });
-
-      //   const data_filter = articlesWithTags.filter(function(element) {
-      //     const tag = this.tag;
-      //     return element.articleTags.some(function(subElement) {
-      //       return subElement.text === tag;
-      //     });
-      //   });
-      console.log(filteredArray, this.tag);
       return filteredArray;
     },
     editArticle: {
@@ -116,6 +81,12 @@ export default {
     search(input) {
       this.input = input;
     },
+    searchTag() {
+      this.$router.push({
+        name: "Tags",
+        params: { tag: this.input },
+      });
+    },
   },
 };
 </script>
@@ -131,6 +102,11 @@ export default {
   top: 10px;
   width: 300px;
   left: 40px;
+}
+.find-button {
+  position: absolute;
+  top: -7px;
+  left: 360px;
 }
 .tabmenu {
   position: absolute;
