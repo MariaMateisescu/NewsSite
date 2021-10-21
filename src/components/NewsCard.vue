@@ -33,6 +33,7 @@
         >read the article <Arrow class="arrow"></Arrow
       ></router-link>
       <bookmarkIcon
+        v-if="this.$store.state.user"
         @click="bookmarkArticle"
         :class="{
           clicked: isClicked,
